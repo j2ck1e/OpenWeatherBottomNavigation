@@ -1,10 +1,11 @@
-package com.jcdesign.openweatherbottomnavigation
+package com.jcdesign.openweatherbottomnavigation.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jcdesign.openweatherbottomnavigation.R
 
 class MainActivity : AppCompatActivity() {
 

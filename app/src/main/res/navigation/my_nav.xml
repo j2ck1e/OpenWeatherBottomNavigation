@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/firstFragment"
-        android:name="com.jcdesign.openweatherbottomnavigation.presentation.FirstFragment"
+        android:name="com.jcdesign.openweatherbottomnavigation.ui.fragments.FirstFragment"
         android:label="fragment_first"
         tools:layout="@layout/fragment_first" />
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.jcdesign.openweatherbottomnavigation.presentation.SecondFragment"
+        android:name="com.jcdesign.openweatherbottomnavigation.ui.fragments.SecondFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_second" />
     <fragment
         android:id="@+id/thirdFragment"
-        android:name="com.jcdesign.openweatherbottomnavigation.presentation.ThirdFragment"
+        android:name="com.jcdesign.openweatherbottomnavigation.ui.fragments.ThirdFragment"
         android:label="fragment_third"
         tools:layout="@layout/fragment_third" />
     <fragment
         android:id="@+id/fourthFragment"
-        android:name="com.jcdesign.openweatherbottomnavigation.presentation.FourthFragment"
+        android:name="com.jcdesign.openweatherbottomnavigation.ui.fragments.FourthFragment"
         android:label="fragment_fourth"
         tools:layout="@layout/fragment_fourth" />
     <fragment
         android:id="@+id/fifthFragment"
-        android:name="com.jcdesign.openweatherbottomnavigation.presentation.FifthFragment"
+        android:name="com.jcdesign.openweatherbottomnavigation.ui.fragments.FifthFragment"
         android:label="fragment_fifth"
         tools:layout="@layout/fragment_fifth" />
 </navigation>

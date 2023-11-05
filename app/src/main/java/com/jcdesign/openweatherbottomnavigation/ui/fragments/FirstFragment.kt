@@ -1,5 +1,7 @@
 package com.jcdesign.openweatherbottomnavigation.ui.fragments
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,10 +22,14 @@ import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
 import com.jcdesign.openweatherbottomnavigation.ui.MainActivity
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModel
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModelProviderFactory
+import com.jcdesign.openweatherbottomnavigation.util.Constants.Companion.REQUEST_CODE_LOCATION_PERMISSION
+import com.jcdesign.openweatherbottomnavigation.util.LocationUtility
 import com.jcdesign.openweatherbottomnavigation.util.Resource
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 
 
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private lateinit var binding: FragmentFirstBinding
     private lateinit var viewModel: WeatherViewModel
     private lateinit var weatherAdapter: WeatherAdapter
@@ -39,9 +45,11 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requestPermissions()
 
         val weatherRepository = WeatherRepository(WeatherDatabase(requireContext()))
-        val viewModelProviderFactory = WeatherViewModelProviderFactory(requireActivity().application,weatherRepository)
+        val viewModelProviderFactory =
+            WeatherViewModelProviderFactory(requireActivity().application, weatherRepository)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
 
@@ -111,7 +119,8 @@ class FirstFragment : Fragment() {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                            .show()
 
                     }
                     getSavedDetailWeather()
@@ -125,6 +134,49 @@ class FirstFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun requestPermissions() {
+        if (LocationUtility.hasLocationPermissions(requireContext())) {
+            return
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept location permissions to use this app.",
+                REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        } else {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept location permissions to use this app.",
+                REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        } else {
+            requestPermissions()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
 

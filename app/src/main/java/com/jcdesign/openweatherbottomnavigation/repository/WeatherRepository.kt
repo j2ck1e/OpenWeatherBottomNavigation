@@ -8,9 +8,10 @@ class WeatherRepository(
     val db: WeatherDatabase
 ) {
     suspend fun getWeather() =
-        RetrofitInstance.api.getWeather()
+        RetrofitInstance.api.getWeather(lat = "44.34", lon = "10.99")
 
-    suspend fun upsert(listOfDetailWeather: List<DetailWeather>) = db.getWeatherDao().upsert(listOfDetailWeather)
+    suspend fun upsert(listOfDetailWeather: List<DetailWeather>) =
+        db.getWeatherDao().upsert(listOfDetailWeather)
 
     fun getSavedDetailWeather() = db.getWeatherDao().getDetailWeather()
 

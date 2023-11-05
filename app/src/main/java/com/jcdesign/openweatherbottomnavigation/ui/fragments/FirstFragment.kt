@@ -14,6 +14,7 @@ import com.jcdesign.openweatherbottomnavigation.R
 import com.jcdesign.openweatherbottomnavigation.adapters.WeatherAdapter
 import com.jcdesign.openweatherbottomnavigation.databinding.FragmentFirstBinding
 import com.jcdesign.openweatherbottomnavigation.db.WeatherDatabase
+import com.jcdesign.openweatherbottomnavigation.models.DetailWeather
 import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
 import com.jcdesign.openweatherbottomnavigation.ui.MainActivity
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModel
@@ -40,30 +41,15 @@ class FirstFragment : Fragment() {
 
         val weatherRepository = WeatherRepository(WeatherDatabase(requireContext()))
         val viewModelProviderFactory = WeatherViewModelProviderFactory(weatherRepository)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
 
         setupRecyclerView()
 
 
-        viewModel.weather.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
-                is Resource.Success -> {
-                    response.data?.let {weatherResponse ->
-                        weatherAdapter.differ.submitList(weatherResponse.list)
-                    }
-                }
-                is Resource.Error -> {
-                    response.message?.let {message ->
-                        Log.d("MyLog", "An error occured: $message")
+//      getSavedDetailWeather()
+        getDetailWeather()
 
-                    }
-                }
-                is Resource.Loading -> {
-                    Log.d("MyLog", "Loading...")
-                }
-            }
-
-        })
 
         weatherAdapter.setOnItemClickListener {
             Log.d("MyLog", "onClick!!!")
@@ -76,9 +62,11 @@ class FirstFragment : Fragment() {
             )
 
         }
+
+
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         weatherAdapter = WeatherAdapter()
         binding.rcWeather.apply {
             adapter = weatherAdapter
@@ -87,6 +75,42 @@ class FirstFragment : Fragment() {
         Log.d("MyLog", "weatherAdapter: $weatherAdapter")
     }
 
+    private fun saveDetailWeather(listOfDetailWeather: List<DetailWeather>) {
+        viewModel.saveDetailWeather(listOfDetailWeather)
+    }
+
+    private fun getSavedDetailWeather() {
+        viewModel.getSavedDetailWeather().observe(viewLifecycleOwner, Observer { detailWeather ->
+            Log.d("MyLog", "getSavedData $detailWeather")
+            weatherAdapter.differ.submitList(detailWeather)
+        })
+    }
+
+    private fun getDetailWeather() {
+        viewModel.weather.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let { weatherResponse ->
+                        weatherAdapter.differ.submitList(weatherResponse.list)
+                        saveDetailWeather(weatherResponse.list)
+                    }
+                }
+
+                is Resource.Error -> {
+                    response.message?.let { message ->
+                        Log.d("MyLog", "An error occured: $message")
+
+                    }
+                }
+
+                is Resource.Loading -> {
+                    Log.d("MyLog", "Loading...")
+
+                }
+            }
+
+        })
+    }
 
 
 }

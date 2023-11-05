@@ -12,7 +12,7 @@ import com.jcdesign.openweatherbottomnavigation.models.DetailWeather
 interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(detailWeather: DetailWeather): Long
+    suspend fun upsert(listOfDetailWeather: List<DetailWeather>): List<Long>
 
     @Query("SELECT * FROM weather")
     fun getDetailWeather(): LiveData<List<DetailWeather>>

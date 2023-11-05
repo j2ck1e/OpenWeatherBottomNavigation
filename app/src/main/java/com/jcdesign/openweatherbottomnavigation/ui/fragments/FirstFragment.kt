@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -40,7 +41,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val weatherRepository = WeatherRepository(WeatherDatabase(requireContext()))
-        val viewModelProviderFactory = WeatherViewModelProviderFactory(weatherRepository)
+        val viewModelProviderFactory = WeatherViewModelProviderFactory(requireActivity().application,weatherRepository)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
 
@@ -98,9 +99,10 @@ class FirstFragment : Fragment() {
 
                 is Resource.Error -> {
                     response.message?.let { message ->
-                        Log.d("MyLog", "An error occured: $message")
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG).show()
 
                     }
+                    getSavedDetailWeather()
                 }
 
                 is Resource.Loading -> {

@@ -33,7 +33,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val weatherRepository = WeatherRepository(WeatherDatabase(requireContext()))
-        val viewModelProviderFactory = WeatherViewModelProviderFactory(weatherRepository)
+        val viewModelProviderFactory = WeatherViewModelProviderFactory(requireActivity().application, weatherRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
 
         val detailWeather = args.detailWeather

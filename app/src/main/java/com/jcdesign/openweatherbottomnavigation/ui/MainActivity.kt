@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val weatherRepository = WeatherRepository(WeatherDatabase(this))
-        val viewModelProviderFactory = WeatherViewModelProviderFactory(weatherRepository)
+        val viewModelProviderFactory = WeatherViewModelProviderFactory(application, weatherRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
 
 

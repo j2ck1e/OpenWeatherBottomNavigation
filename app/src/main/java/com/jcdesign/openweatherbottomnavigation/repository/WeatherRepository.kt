@@ -7,8 +7,8 @@ import com.jcdesign.openweatherbottomnavigation.models.DetailWeather
 class WeatherRepository(
     val db: WeatherDatabase
 ) {
-    suspend fun getWeather() =
-        RetrofitInstance.api.getWeather(lat = "44.34", lon = "10.99")
+    suspend fun getWeather(lat: String, lon: String) =
+        RetrofitInstance.api.getWeather(lat, lon)
 
     suspend fun upsert(listOfDetailWeather: List<DetailWeather>) =
         db.getWeatherDao().upsert(listOfDetailWeather)

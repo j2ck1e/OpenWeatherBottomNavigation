@@ -1,7 +1,9 @@
 package com.jcdesign.openweatherbottomnavigation.ui
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.TYPE_ETHERNET
 import android.net.ConnectivityManager.TYPE_MOBILE
@@ -11,11 +13,13 @@ import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.os.Build
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.jcdesign.openweatherbottomnavigation.WeatherApplication
 import com.jcdesign.openweatherbottomnavigation.models.DetailWeather
 import com.jcdesign.openweatherbottomnavigation.models.WeatherResponse
@@ -24,6 +28,9 @@ import com.jcdesign.openweatherbottomnavigation.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class WeatherViewModel(
     app: Application,
@@ -31,16 +38,15 @@ class WeatherViewModel(
 ) : AndroidViewModel(app) {
 
     val weather: MutableLiveData<Resource<WeatherResponse>> = MutableLiveData()
+    val fLocationClient = LocationServices.getFusedLocationProviderClient(app)
 
     init {
         getWeather()
     }
 
+
     fun getWeather() = viewModelScope.launch {
         safeDetailWeatherCall()
-//        weather.postValue(Resource.Loading())
-//        val response = weatherRepository.getWeather()
-//        weather.postValue(handleWeatherResponse(response))
     }
 
     private fun handleWeatherResponse(response: Response<WeatherResponse>): Resource<WeatherResponse> {
@@ -60,10 +66,11 @@ class WeatherViewModel(
     fun getSavedDetailWeather() = weatherRepository.getSavedDetailWeather()
 
     private suspend fun safeDetailWeatherCall() {
+        val (lat, lon) = getLocation()
         weather.postValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
-                val response = weatherRepository.getWeather()
+                val response = weatherRepository.getWeather(lat, lon)
                 weather.postValue(handleWeatherResponse(response))
             } else {
                 weather.postValue(Resource.Error("No internet connection"))
@@ -100,6 +107,33 @@ class WeatherViewModel(
             }
         }
         return false
+    }
+
+
+    private suspend fun getLocation(): Pair<String, String> = suspendCoroutine { continuation ->
+        val cancelToken = CancellationTokenSource()
+        if (ActivityCompat.checkSelfPermission(
+                getApplication(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                getApplication(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            continuation.resumeWithException(Exception("Location permissions not granted"))
+        } else {
+            fLocationClient
+                .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, cancelToken.token)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val lat = it.result.latitude.toString()
+                        val lon = it.result.longitude.toString()
+                        continuation.resume(Pair(lat, lon))
+                    } else {
+                        continuation.resumeWithException(Exception("Failed to get location"))
+                    }
+                }
+        }
     }
 
 }

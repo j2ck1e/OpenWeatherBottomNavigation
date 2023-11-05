@@ -11,9 +11,9 @@ interface WeatherAPI {
     @GET("data/2.5/forecast")
     suspend fun getWeather(
         @Query("lat")
-        lat: String? = null,
+        lat: String,
         @Query("lon")
-        lon: String? = null,
+        lon: String,
 //        @Query("q")
 //        city: String = "Tokio",
         @Query("appid")

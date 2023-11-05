@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jcdesign.openweatherbottomnavigation.R
@@ -25,6 +26,7 @@ import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModelProviderFacto
 import com.jcdesign.openweatherbottomnavigation.util.Constants.Companion.REQUEST_CODE_LOCATION_PERMISSION
 import com.jcdesign.openweatherbottomnavigation.util.LocationUtility
 import com.jcdesign.openweatherbottomnavigation.util.Resource
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -55,8 +57,6 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         setupRecyclerView()
 
-
-//      getSavedDetailWeather()
         getDetailWeather()
 
 
@@ -168,7 +168,7 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) { }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

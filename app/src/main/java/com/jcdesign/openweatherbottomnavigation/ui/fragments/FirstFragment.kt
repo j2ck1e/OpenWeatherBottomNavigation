@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jcdesign.openweatherbottomnavigation.R
 import com.jcdesign.openweatherbottomnavigation.adapters.WeatherAdapter
@@ -43,10 +44,6 @@ class FirstFragment : Fragment() {
 
         setupRecyclerView()
 
-        weatherAdapter.setOnItemClickListener {
-
-
-        }
 
         viewModel.weather.observe(viewLifecycleOwner, Observer { response ->
             when(response) {
@@ -67,6 +64,18 @@ class FirstFragment : Fragment() {
             }
 
         })
+
+        weatherAdapter.setOnItemClickListener {
+            Log.d("MyLog", "onClick!!!")
+            val bundle = Bundle().apply {
+                putSerializable("detailWeather", it)
+            }
+            findNavController().navigate(
+                R.id.action_firstFragment_to_detailFragment,
+                bundle
+            )
+
+        }
     }
 
     private fun setupRecyclerView(){
@@ -75,6 +84,7 @@ class FirstFragment : Fragment() {
             adapter = weatherAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+        Log.d("MyLog", "weatherAdapter: $weatherAdapter")
     }
 
 

@@ -2,6 +2,7 @@ package com.jcdesign.openweatherbottomnavigation.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(
     tableName = "weather"
@@ -20,4 +21,4 @@ data class DetailWeather(
 //    val visibility: Int,
 //    val weather: List<Weather>,
     val wind: Wind
-)
+) : Serializable

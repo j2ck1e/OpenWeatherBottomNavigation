@@ -44,6 +44,7 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.DetailWeatherHolder>(
         return differ.currentList.size
     }
 
+    private var onItemClickListener: ((DetailWeather) -> Unit)? = null
     override fun onBindViewHolder(holder: DetailWeatherHolder, position: Int) {
         val detailWeather = differ.currentList[position]
         holder.binding.apply {
@@ -53,14 +54,15 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.DetailWeatherHolder>(
             tvPressure.text = "${detailWeather.main.pressure.toString()} hpa"
             tvTemp.text = "Temperature from ${detailWeather.main.temp_min} to ${detailWeather.main.temp_max} ºC"
             tvWind.text = "wind: ${detailWeather.wind.speed.toString()} m/s"
-            setOnItemClickListener {
+
+            cvItem.setOnClickListener() {
                 onItemClickListener?.let { it(detailWeather)}
             }
 
         }
     }
 
-    private var onItemClickListener: ((DetailWeather) -> Unit)? = null
+
 
     fun setOnItemClickListener(listener: (DetailWeather) -> Unit){
         onItemClickListener = listener

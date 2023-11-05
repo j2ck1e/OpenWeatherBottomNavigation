@@ -48,11 +48,11 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.DetailWeatherHolder>(
         val detailWeather = differ.currentList[position]
         holder.binding.apply {
             tvDate.text = detailWeather.dt_txt
-            tvCloud.text = "Облачность: ${detailWeather.clouds.all.toString()}%"
-            tvHumidity.text = "Влажность: ${detailWeather.main.humidity.toString()}%"
-            tvPressure.text = "Давление: ${detailWeather.main.pressure.toString()}"
-            tvTemp.text = "${detailWeather.main.temp_max}ºC/${detailWeather.main.temp_min}ºC"
-            tvWind.text = "Ветер: ${detailWeather.wind.speed.toString()}м/с"
+            tvCloud.text = "clouds: ${detailWeather.clouds.all.toString()}%"
+            tvHumidity.text = "humidity: ${detailWeather.main.humidity.toString()}%"
+            tvPressure.text = "${detailWeather.main.pressure.toString()} hpa"
+            tvTemp.text = "Temperature from ${detailWeather.main.temp_min} to ${detailWeather.main.temp_max} ºC"
+            tvWind.text = "wind: ${detailWeather.wind.speed.toString()} m/s"
             setOnItemClickListener {
                 onItemClickListener?.let { it(detailWeather)}
             }

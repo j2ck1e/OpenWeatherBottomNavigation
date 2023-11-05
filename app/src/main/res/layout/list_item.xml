@@ -4,23 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
-    app:cardCornerRadius="3dp"
-    app:cardElevation="0dp">
+    android:layout_marginTop="5dp"
+    android:backgroundTint="#DADADA"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:text="02/11/2023"
+            android:text="2023-11-05 09:00:00"
             android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,62 +30,57 @@
             android:id="@+id/tvCloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="Облачность 15%"
+            android:layout_marginTop="8dp"
+            android:text="clouds: 100 %"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvDate"
-            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+            app:layout_constraintStart_toStartOf="@+id/tvTemp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTemp" />
 
 
         <TextView
             android:id="@+id/tvHumidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Влажость 85%"
+            android:layout_marginStart="25dp"
+            android:text="humidity: 85%"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/tvDate"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/tvCloud"
+            app:layout_constraintTop_toTopOf="@+id/tvCloud" />
 
         <TextView
             android:id="@+id/tvPressure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
             android:layout_marginBottom="5dp"
-            android:text="Давление 15%"
+            android:text="1017 hpa"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvCloud"
-            app:layout_constraintTop_toBottomOf="@+id/tvHumidity" />
+            app:layout_constraintStart_toStartOf="@+id/tvCloud"
+            app:layout_constraintTop_toBottomOf="@+id/tvCloud" />
 
         <TextView
             android:id="@+id/tvTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="12ºC/14ºC"
+            android:layout_marginTop="5dp"
+            android:text="Temperature from 3.9 to 4.2 °С"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/tvHumidity"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
         <TextView
             android:id="@+id/tvWind"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
-            android:text="Давление 15%"
+            android:layout_height="19dp"
+            android:text="wind: 4.92 m/s"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvPressure"
-            app:layout_constraintTop_toBottomOf="@+id/tvTemp" />
+            app:layout_constraintStart_toStartOf="@+id/tvHumidity"
+            app:layout_constraintTop_toBottomOf="@+id/tvHumidity" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

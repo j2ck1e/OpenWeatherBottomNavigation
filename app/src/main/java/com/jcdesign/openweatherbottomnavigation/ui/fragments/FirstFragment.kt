@@ -40,7 +40,13 @@ class FirstFragment : Fragment() {
         val weatherRepository = WeatherRepository(WeatherDatabase(requireContext()))
         val viewModelProviderFactory = WeatherViewModelProviderFactory(weatherRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
+
         setupRecyclerView()
+
+        weatherAdapter.setOnItemClickListener {
+
+
+        }
 
         viewModel.weather.observe(viewLifecycleOwner, Observer { response ->
             when(response) {

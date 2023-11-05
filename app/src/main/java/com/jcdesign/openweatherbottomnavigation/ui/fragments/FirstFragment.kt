@@ -76,14 +76,24 @@ class FirstFragment : Fragment() {
         Log.d("MyLog", "weatherAdapter: $weatherAdapter")
     }
 
+    private fun hideProgressBar() {
+        binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.paginationProgressBar.visibility = View.VISIBLE
+    }
+
     private fun saveDetailWeather(listOfDetailWeather: List<DetailWeather>) {
         viewModel.saveDetailWeather(listOfDetailWeather)
     }
 
     private fun getSavedDetailWeather() {
+        showProgressBar()
         viewModel.getSavedDetailWeather().observe(viewLifecycleOwner, Observer { detailWeather ->
             Log.d("MyLog", "getSavedData $detailWeather")
             weatherAdapter.differ.submitList(detailWeather)
+            hideProgressBar()
         })
     }
 
@@ -91,6 +101,7 @@ class FirstFragment : Fragment() {
         viewModel.weather.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
+                    hideProgressBar()
                     response.data?.let { weatherResponse ->
                         weatherAdapter.differ.submitList(weatherResponse.list)
                         saveDetailWeather(weatherResponse.list)
@@ -98,6 +109,7 @@ class FirstFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
+                    hideProgressBar()
                     response.message?.let { message ->
                         Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG).show()
 
@@ -106,6 +118,7 @@ class FirstFragment : Fragment() {
                 }
 
                 is Resource.Loading -> {
+                    showProgressBar()
                     Log.d("MyLog", "Loading...")
 
                 }

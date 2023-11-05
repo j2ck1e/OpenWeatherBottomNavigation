@@ -38,7 +38,12 @@ class DetailFragment : Fragment() {
 
         val detailWeather = args.detailWeather
         binding.apply {
-            tvText.text = detailWeather.dt_txt
+            detailDate.text = detailWeather.dt_txt
+            detailCloud.text = "clouds: ${detailWeather.clouds.all.toString()}%"
+            detailHumidity.text = "humidity: ${detailWeather.main.humidity.toString()}%"
+            detailPressure.text = "${detailWeather.main.pressure.toString()} hpa"
+            detailTemp.text = "Temperature from ${detailWeather.main.temp_min} to ${detailWeather.main.temp_max} ºC"
+            detailWind.text = "wind: ${detailWeather.wind.speed.toString()} m/s"
         }
 
     }

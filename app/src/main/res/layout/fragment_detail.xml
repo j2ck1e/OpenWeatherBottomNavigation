@@ -7,16 +7,73 @@
     tools:context=".ui.fragments.DetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
-        android:id="@+id/tvText"
+        android:id="@+id/detail_Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detail Fragment"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="2023-11-05 09:00:00"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/detail_Cloud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="clouds: 100 %"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/detail_Temp"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Temp" />
+
+
+    <TextView
+        android:id="@+id/detail_Humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="humidity: 85%"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/detail_Temp"
+        app:layout_constraintTop_toTopOf="@+id/detail_Cloud" />
+
+    <TextView
+        android:id="@+id/detail_Pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1017 hpa"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/detail_Cloud"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Cloud" />
+
+    <TextView
+        android:id="@+id/detail_Temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Temperature from 3.9 to 4.2 °С"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Date" />
+
+    <TextView
+        android:id="@+id/detail_Wind"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:text="wind: 4.92 m/s"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/detail_Humidity"
+        app:layout_constraintStart_toStartOf="@+id/detail_Humidity"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Humidity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

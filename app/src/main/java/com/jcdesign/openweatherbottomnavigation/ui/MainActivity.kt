@@ -1,7 +1,6 @@
 package com.jcdesign.openweatherbottomnavigation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -10,7 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jcdesign.openweatherbottomnavigation.R
 import com.jcdesign.openweatherbottomnavigation.db.WeatherDatabase
 import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
-import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModel
 
 class MainActivity : AppCompatActivity() {
 

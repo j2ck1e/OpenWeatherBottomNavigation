@@ -1,15 +1,13 @@
 package com.jcdesign.openweatherbottomnavigation.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.jcdesign.openweatherbottomnavigation.R
 import com.jcdesign.openweatherbottomnavigation.databinding.FragmentDetailBinding
-import com.jcdesign.openweatherbottomnavigation.databinding.FragmentFirstBinding
 import com.jcdesign.openweatherbottomnavigation.db.WeatherDatabase
 import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModel

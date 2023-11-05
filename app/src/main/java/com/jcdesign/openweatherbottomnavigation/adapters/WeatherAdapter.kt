@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jcdesign.openweatherbottomnavigation.R
 import com.jcdesign.openweatherbottomnavigation.databinding.ListItemBinding
@@ -49,11 +48,11 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.DetailWeatherHolder>(
         val detailWeather = differ.currentList[position]
         holder.binding.apply {
             tvDate.text = detailWeather.dt_txt
-            tvCloud.text = "clouds: ${detailWeather.clouds.all.toString()}%"
-            tvHumidity.text = "humidity: ${detailWeather.main.humidity.toString()}%"
-            tvPressure.text = "${detailWeather.main.pressure.toString()} hpa"
+            tvCloud.text = "clouds: ${detailWeather.clouds.all}%"
+            tvHumidity.text = "humidity: ${detailWeather.main.humidity}%"
+            tvPressure.text = "${detailWeather.main.pressure} hpa"
             tvTemp.text = "Temperature from ${detailWeather.main.temp_min} to ${detailWeather.main.temp_max} ºC"
-            tvWind.text = "wind: ${detailWeather.wind.speed.toString()} m/s"
+            tvWind.text = "wind: ${detailWeather.wind.speed} m/s"
 
             cvItem.setOnClickListener() {
                 onItemClickListener?.let { it(detailWeather)}

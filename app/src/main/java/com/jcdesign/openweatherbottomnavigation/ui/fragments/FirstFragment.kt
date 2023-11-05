@@ -3,15 +3,13 @@ package com.jcdesign.openweatherbottomnavigation.ui.fragments
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jcdesign.openweatherbottomnavigation.R
@@ -20,13 +18,11 @@ import com.jcdesign.openweatherbottomnavigation.databinding.FragmentFirstBinding
 import com.jcdesign.openweatherbottomnavigation.db.WeatherDatabase
 import com.jcdesign.openweatherbottomnavigation.models.DetailWeather
 import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
-import com.jcdesign.openweatherbottomnavigation.ui.MainActivity
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModel
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModelProviderFactory
 import com.jcdesign.openweatherbottomnavigation.util.Constants.Companion.REQUEST_CODE_LOCATION_PERMISSION
 import com.jcdesign.openweatherbottomnavigation.util.LocationUtility
 import com.jcdesign.openweatherbottomnavigation.util.Resource
-import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -40,7 +36,6 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("MyLog", "First fragment")
         binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,7 +56,6 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
 
         weatherAdapter.setOnItemClickListener {
-            Log.d("MyLog", "onClick!!!")
             val bundle = Bundle().apply {
                 putSerializable("detailWeather", it)
             }
@@ -81,7 +75,6 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             adapter = weatherAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-        Log.d("MyLog", "weatherAdapter: $weatherAdapter")
     }
 
     private fun hideProgressBar() {
@@ -99,7 +92,6 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun getSavedDetailWeather() {
         showProgressBar()
         viewModel.getSavedDetailWeather().observe(viewLifecycleOwner, Observer { detailWeather ->
-            Log.d("MyLog", "getSavedData $detailWeather")
             weatherAdapter.differ.submitList(detailWeather)
             hideProgressBar()
         })
@@ -128,8 +120,6 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
                 is Resource.Loading -> {
                     showProgressBar()
-                    Log.d("MyLog", "Loading...")
-
                 }
             }
 
@@ -168,7 +158,7 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) { }
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

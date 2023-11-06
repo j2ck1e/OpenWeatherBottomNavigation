@@ -62,6 +62,10 @@ class WeatherViewModel(
         weatherRepository.upsert(listOfDetailWeather)
     }
 
+    fun clearWeatherData() = viewModelScope.launch {
+        weatherRepository.clearWeatherData()
+    }
+
     fun getSavedDetailWeather() = weatherRepository.getSavedDetailWeather()
 
     private suspend fun safeDetailWeatherCall() {

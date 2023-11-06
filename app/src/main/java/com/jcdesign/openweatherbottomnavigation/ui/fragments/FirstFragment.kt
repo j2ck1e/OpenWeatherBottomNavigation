@@ -89,6 +89,10 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         viewModel.saveDetailWeather(listOfDetailWeather)
     }
 
+    private fun clearDatabase(){
+        viewModel.clearWeatherData()
+    }
+
     private fun getSavedDetailWeather() {
         showProgressBar()
         viewModel.getSavedDetailWeather().observe(viewLifecycleOwner, Observer { detailWeather ->
@@ -104,6 +108,7 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     hideProgressBar()
                     response.data?.let { weatherResponse ->
                         weatherAdapter.differ.submitList(weatherResponse.list)
+                        clearDatabase()
                         saveDetailWeather(weatherResponse.list)
                     }
                 }

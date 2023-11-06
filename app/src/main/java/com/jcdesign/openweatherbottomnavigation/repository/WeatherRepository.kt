@@ -15,4 +15,8 @@ class WeatherRepository(
 
     fun getSavedDetailWeather() = db.getWeatherDao().getDetailWeather()
 
+    suspend fun clearWeatherData() {
+        db.getWeatherDao().clearWeatherData()
+    }
+
 }

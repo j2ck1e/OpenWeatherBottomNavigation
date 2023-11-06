@@ -17,4 +17,7 @@ interface WeatherDao {
     @Query("SELECT * FROM weather")
     fun getDetailWeather(): LiveData<List<DetailWeather>>
 
+    @Query("DELETE FROM weather")
+    suspend fun clearWeatherData()
+
 }

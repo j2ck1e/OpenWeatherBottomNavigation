@@ -3,7 +3,9 @@ package com.jcdesign.openweatherbottomnavigation.ui
 import android.Manifest
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.TYPE_ETHERNET
 import android.net.ConnectivityManager.TYPE_MOBILE
@@ -23,6 +25,7 @@ import com.jcdesign.openweatherbottomnavigation.WeatherApplication
 import com.jcdesign.openweatherbottomnavigation.models.DetailWeather
 import com.jcdesign.openweatherbottomnavigation.models.WeatherResponse
 import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
+import com.jcdesign.openweatherbottomnavigation.util.DialogManager
 import com.jcdesign.openweatherbottomnavigation.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -111,6 +114,8 @@ class WeatherViewModel(
         }
         return false
     }
+
+
 
 
     private suspend fun getLocation(): Pair<String, String> = suspendCoroutine { continuation ->

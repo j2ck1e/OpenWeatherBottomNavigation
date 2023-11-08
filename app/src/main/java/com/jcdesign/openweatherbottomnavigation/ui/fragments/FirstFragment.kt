@@ -58,6 +58,7 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         setupRecyclerView()
         checkLocation()
+        getDetailWeather()
 
 
 
@@ -74,6 +75,11 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkLocation()
     }
 
     private fun setupRecyclerView() {
@@ -183,7 +189,7 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun checkLocation(){
         if(isLocationEnabled()){
-            getDetailWeather()
+            viewModel.getWeather()
         } else {
             DialogManager.locationSettingsDialog(requireContext(), object : DialogManager.Listener{
                 override fun onClick() {

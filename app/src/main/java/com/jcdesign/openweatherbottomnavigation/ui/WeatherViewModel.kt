@@ -42,9 +42,9 @@ class WeatherViewModel(
     val weather: MutableLiveData<Resource<WeatherResponse>> = MutableLiveData()
     val fLocationClient = LocationServices.getFusedLocationProviderClient(app)
 
-    init {
-        getWeather()
-    }
+//    init {
+//        getWeather()
+//    }
 
 
     fun getWeather() = viewModelScope.launch {
@@ -114,8 +114,6 @@ class WeatherViewModel(
         }
         return false
     }
-
-
 
 
     private suspend fun getLocation(): Pair<String, String> = suspendCoroutine { continuation ->

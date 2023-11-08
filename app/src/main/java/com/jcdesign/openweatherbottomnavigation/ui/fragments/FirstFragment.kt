@@ -1,8 +1,12 @@
 package com.jcdesign.openweatherbottomnavigation.ui.fragments
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jcdesign.openweatherbottomnavigation.R
+import com.jcdesign.openweatherbottomnavigation.WeatherApplication
 import com.jcdesign.openweatherbottomnavigation.adapters.WeatherAdapter
 import com.jcdesign.openweatherbottomnavigation.databinding.FragmentFirstBinding
 import com.jcdesign.openweatherbottomnavigation.db.WeatherDatabase
@@ -21,6 +26,7 @@ import com.jcdesign.openweatherbottomnavigation.repository.WeatherRepository
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModel
 import com.jcdesign.openweatherbottomnavigation.ui.WeatherViewModelProviderFactory
 import com.jcdesign.openweatherbottomnavigation.util.Constants.Companion.REQUEST_CODE_LOCATION_PERMISSION
+import com.jcdesign.openweatherbottomnavigation.util.DialogManager
 import com.jcdesign.openweatherbottomnavigation.util.LocationUtility
 import com.jcdesign.openweatherbottomnavigation.util.Resource
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -51,8 +57,9 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             ViewModelProvider(this, viewModelProviderFactory).get(WeatherViewModel::class.java)
 
         setupRecyclerView()
+        checkLocation()
 
-        getDetailWeather()
+
 
 
         weatherAdapter.setOnItemClickListener {
@@ -172,6 +179,25 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    private fun checkLocation(){
+        if(isLocationEnabled()){
+            getDetailWeather()
+        } else {
+            DialogManager.locationSettingsDialog(requireContext(), object : DialogManager.Listener{
+                override fun onClick() {
+                    requireContext().startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+
+            })
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean{
+        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
     }
 
 
